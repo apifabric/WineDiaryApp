@@ -1,0 +1,535 @@
+about:
+  date: November 20, 2024 04:37:44
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Event:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(100)
+    - name: date
+      required: true
+      type: DATE
+    - name: location
+      template: text
+      type: VARCHAR(100)
+    - name: id
+      template: integer
+      type: INTEGER
+    description: This table logs events where wine tastings occur.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: This table logs events where wine tastings occur.
+    label: Event
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - event_id
+      name: TastingEventList
+      resource: TastingEvent
+    type: Event
+  Taster:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(100)
+    - name: experience_level
+      template: text
+      type: VARCHAR(50)
+    - name: id
+      template: integer
+      type: INTEGER
+    description: This page shows information about individuals who taste wines.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: This page shows information about individuals who taste wines.
+    label: Taster
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - taster_id
+      name: TasterTastingList
+      resource: TasterTasting
+    - direction: tomany
+      fks:
+      - taster_id
+      name: WineReviewList
+      resource: WineReview
+    type: Taster
+  TasterTasting:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: taster_id
+      template: integer
+      type: INTEGER
+    - name: tasting_id
+      template: integer
+      type: INTEGER
+    description: This table links tasters to the tastings they have performed.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: This table links tasters to the tastings they have performed.
+    label: TasterTasting
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - taster_id
+      name: taster
+      resource: Taster
+    - direction: toone
+      fks:
+      - tasting_id
+      name: tasting
+      resource: Tasting
+    type: TasterTasting
+  Tasting:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: wine_id
+      template: integer
+      type: INTEGER
+    - name: date
+      required: true
+      type: DATE
+    - name: score
+      template: integer
+      type: INTEGER
+    - name: notes
+      template: text
+      type: VARCHAR(255)
+    description: This table records individual wine tastings, including scores and
+      notes.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: This table records individual wine tastings, including scores and notes.
+    label: Tasting
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - tasting_id
+      name: TasterTastingList
+      resource: TasterTasting
+    - direction: tomany
+      fks:
+      - tasting_id
+      name: TastingEventList
+      resource: TastingEvent
+    - direction: tomany
+      fks:
+      - tasting_id
+      name: TastingNoteList
+      resource: TastingNote
+    - direction: tomany
+      fks:
+      - tasting_id
+      name: WineTastingList
+      resource: WineTasting
+    - direction: toone
+      fks:
+      - wine_id
+      name: wine
+      resource: Wine
+    type: Tasting
+  TastingEvent:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: event_id
+      template: integer
+      type: INTEGER
+    - name: tasting_id
+      template: integer
+      type: INTEGER
+    description: This table maps tastings to events they belong to.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: This table maps tastings to events they belong to.
+    label: TastingEvent
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - event_id
+      name: event
+      resource: Event
+    - direction: toone
+      fks:
+      - tasting_id
+      name: tasting
+      resource: Tasting
+    type: TastingEvent
+  TastingNote:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: tasting_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: note
+      required: true
+      template: text
+      type: VARCHAR(255)
+    description: This table allows for detailed notes about each tasting session.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: This table allows for detailed notes about each tasting session.
+    label: TastingNote
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - tasting_id
+      name: tasting
+      resource: Tasting
+    type: TastingNote
+  Vineyard:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(100)
+    - name: country
+      template: text
+      type: VARCHAR(50)
+    - name: id
+      template: integer
+      type: INTEGER
+    description: This table contains information about vineyards associated with wines.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: This table contains information about vineyards associated with wines.
+    label: Vineyard
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - vineyard_id
+      name: VineyardWineList
+      resource: VineyardWine
+    - direction: tomany
+      fks:
+      - vineyard_id
+      name: WineList
+      resource: Wine
+    type: Vineyard
+  VineyardWine:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: vineyard_id
+      template: integer
+      type: INTEGER
+    - name: wine_id
+      template: integer
+      type: INTEGER
+    description: This table creates a many-to-many relationship between vineyards
+      and wines.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: This table creates a many-to-many relationship between vineyards and
+      wines.
+    label: VineyardWine
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - vineyard_id
+      name: vineyard
+      resource: Vineyard
+    - direction: toone
+      fks:
+      - wine_id
+      name: wine
+      resource: Wine
+    type: VineyardWine
+  Wine:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(100)
+    - name: vineyard_id
+      template: integer
+      type: INTEGER
+    - name: varietal
+      required: true
+      template: text
+      type: VARCHAR(50)
+    - name: year
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: This page shows information about different wines in the diary.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: This page shows information about different wines in the diary.
+    label: Wine
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - wine_id
+      name: TastingList
+      resource: Tasting
+    - direction: tomany
+      fks:
+      - wine_id
+      name: VineyardWineList
+      resource: VineyardWine
+    - direction: tomany
+      fks:
+      - wine_id
+      name: WineReviewList
+      resource: WineReview
+    - direction: tomany
+      fks:
+      - wine_id
+      name: WineTastingList
+      resource: WineTasting
+    - direction: toone
+      fks:
+      - vineyard_id
+      name: vineyard
+      resource: Vineyard
+    type: Wine
+  WineReview:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: taster_id
+      template: integer
+      type: INTEGER
+    - name: wine_id
+      template: integer
+      type: INTEGER
+    - name: review
+      template: text
+      type: VARCHAR(255)
+    - name: rating
+      template: integer
+      type: INTEGER
+    description: This page shows reviews made by tasters for each wine.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: This page shows reviews made by tasters for each wine.
+    label: WineReview
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - taster_id
+      name: taster
+      resource: Taster
+    - direction: toone
+      fks:
+      - wine_id
+      name: wine
+      resource: Wine
+    type: WineReview
+  WineTasting:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: tasting_id
+      template: integer
+      type: INTEGER
+    - name: wine_id
+      template: integer
+      type: INTEGER
+    description: This table associates wines with their tastings.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: This table associates wines with their tastings.
+    label: WineTasting
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - tasting_id
+      name: tasting
+      resource: Tasting
+    - direction: toone
+      fks:
+      - wine_id
+      name: wine
+      resource: Wine
+    type: WineTasting
+  WineType:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(50)
+    - name: description
+      template: text
+      type: VARCHAR(255)
+    - name: id
+      template: integer
+      type: INTEGER
+    description: This table categorizes wines into different types such as red, white,
+      sparkling, etc.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: This table categorizes wines into different types such as red, white,
+      sparkling, etc.
+    label: WineType
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: WineType
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

@@ -1,0 +1,116 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Event: This table logs events where wine tastings occur.
+Taster: information about individuals who taste wines.
+TasterTasting: This table links tasters to the tastings they have performed.
+Tasting: individual wine tastings, including scores and notes.
+Wine: information about different wines in the diary.
+TastingEvent: This table maps tastings to events they belong to.
+TastingNote: This table allows for detailed notes about each tasting session.
+Vineyard: This table contains information about vineyards associated with wines.
+VineyardWine: This table creates a many-to-many relationship between vineyards and wines.
+WineReview: reviews made by tasters for each wine.
+WineTasting: This table associates wines with their tastings.
+WineType: This table categorizes wines into different types such as red, white, sparkling, etc.
+'''
+}
+
+Table Event {
+    id INTEGER [primary key]
+    name VARCHAR(100) 
+    date DATE 
+    location VARCHAR(100) 
+    }
+
+Table Taster {
+    id INTEGER [primary key]
+    name VARCHAR(100) 
+    experience_level VARCHAR(50) 
+    }
+
+Table TasterTasting {
+    id INTEGER [primary key]
+    taster_id INTEGER 
+    tasting_id INTEGER 
+    }
+
+Table Tasting {
+    id INTEGER [primary key]
+    wine_id INTEGER 
+    date DATE 
+    score INTEGER 
+    notes VARCHAR(255) 
+    }
+
+Table Wine {
+    id INTEGER [primary key]
+    name VARCHAR(100) 
+    varietal VARCHAR(50) 
+    year INTEGER 
+    vineyard_id INTEGER 
+    }
+
+Table TastingEvent {
+    id INTEGER [primary key]
+    tasting_id INTEGER 
+    event_id INTEGER 
+    }
+
+Table TastingNote {
+    id INTEGER [primary key]
+    tasting_id INTEGER 
+    note VARCHAR(255) 
+    }
+
+Table Vineyard {
+    id INTEGER [primary key]
+    name VARCHAR(100) 
+    country VARCHAR(50) 
+    }
+
+Table VineyardWine {
+    id INTEGER [primary key]
+    vineyard_id INTEGER 
+    wine_id INTEGER 
+    }
+
+Table WineReview {
+    id INTEGER [primary key]
+    wine_id INTEGER 
+    taster_id INTEGER 
+    review VARCHAR(255) 
+    rating INTEGER 
+    }
+
+Table WineTasting {
+    id INTEGER [primary key]
+    wine_id INTEGER 
+    tasting_id INTEGER 
+    }
+
+Table WineType {
+    id INTEGER [primary key]
+    name VARCHAR(50) 
+    description VARCHAR(255) 
+    }
+
+
+
+// Relationships
+    Ref: TasterTasting.(taster_id) < Taster.(id)
+    Ref: TasterTasting.(tasting_id) < Tasting.(id)
+    Ref: Tasting.(wine_id) < Wine.(id)
+    Ref: Wine.(vineyard_id) < Vineyard.(id)
+    Ref: TastingEvent.(event_id) < Event.(id)
+    Ref: TastingEvent.(tasting_id) < Tasting.(id)
+    Ref: TastingNote.(tasting_id) < Tasting.(id)
+    Ref: VineyardWine.(vineyard_id) < Vineyard.(id)
+    Ref: VineyardWine.(wine_id) < Wine.(id)
+    Ref: WineReview.(taster_id) < Taster.(id)
+    Ref: WineReview.(wine_id) < Wine.(id)
+    Ref: WineTasting.(tasting_id) < Tasting.(id)
+    Ref: WineTasting.(wine_id) < Wine.(id)

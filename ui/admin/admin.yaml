@@ -1,0 +1,351 @@
+about:
+  date: November 20, 2024 04:37:44
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 13
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Event:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: date
+      required: true
+      type: DATE
+    - name: location
+    - name: id
+    description: This table logs events where wine tastings occur.
+    info_list: This table logs events where wine tastings occur.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - event_id
+      name: TastingEventList
+      resource: TastingEvent
+    type: Event
+    user_key: name
+  Taster:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: experience_level
+    - name: id
+    description: This page shows information about individuals who taste wines.
+    info_list: This page shows information about individuals who taste wines.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - taster_id
+      name: TasterTastingList
+      resource: TasterTasting
+    - direction: tomany
+      fks:
+      - taster_id
+      name: WineReviewList
+      resource: WineReview
+    type: Taster
+    user_key: name
+  TasterTasting:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: taster_id
+    - name: tasting_id
+    description: This table links tasters to the tastings they have performed.
+    info_list: This table links tasters to the tastings they have performed.
+    tab_groups:
+    - direction: toone
+      fks:
+      - taster_id
+      name: taster
+      resource: Taster
+    - direction: toone
+      fks:
+      - tasting_id
+      name: tasting
+      resource: Tasting
+    type: TasterTasting
+    user_key: id
+  Tasting:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: wine_id
+    - name: date
+      required: true
+      type: DATE
+    - name: score
+    - name: notes
+    description: This table records individual wine tastings, including scores and
+      notes.
+    info_list: This table records individual wine tastings, including scores and notes.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - tasting_id
+      name: TasterTastingList
+      resource: TasterTasting
+    - direction: tomany
+      fks:
+      - tasting_id
+      name: TastingEventList
+      resource: TastingEvent
+    - direction: tomany
+      fks:
+      - tasting_id
+      name: TastingNoteList
+      resource: TastingNote
+    - direction: tomany
+      fks:
+      - tasting_id
+      name: WineTastingList
+      resource: WineTasting
+    - direction: toone
+      fks:
+      - wine_id
+      name: wine
+      resource: Wine
+    type: Tasting
+    user_key: id
+  TastingEvent:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: event_id
+    - name: tasting_id
+    description: This table maps tastings to events they belong to.
+    info_list: This table maps tastings to events they belong to.
+    tab_groups:
+    - direction: toone
+      fks:
+      - event_id
+      name: event
+      resource: Event
+    - direction: toone
+      fks:
+      - tasting_id
+      name: tasting
+      resource: Tasting
+    type: TastingEvent
+    user_key: id
+  TastingNote:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: tasting_id
+      required: true
+    - name: note
+      required: true
+    description: This table allows for detailed notes about each tasting session.
+    info_list: This table allows for detailed notes about each tasting session.
+    tab_groups:
+    - direction: toone
+      fks:
+      - tasting_id
+      name: tasting
+      resource: Tasting
+    type: TastingNote
+    user_key: id
+  Vineyard:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: country
+    - name: id
+    description: This table contains information about vineyards associated with wines.
+    info_list: This table contains information about vineyards associated with wines.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - vineyard_id
+      name: VineyardWineList
+      resource: VineyardWine
+    - direction: tomany
+      fks:
+      - vineyard_id
+      name: WineList
+      resource: Wine
+    type: Vineyard
+    user_key: name
+  VineyardWine:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: vineyard_id
+    - name: wine_id
+    description: This table creates a many-to-many relationship between vineyards
+      and wines.
+    info_list: This table creates a many-to-many relationship between vineyards and
+      wines.
+    tab_groups:
+    - direction: toone
+      fks:
+      - vineyard_id
+      name: vineyard
+      resource: Vineyard
+    - direction: toone
+      fks:
+      - wine_id
+      name: wine
+      resource: Wine
+    type: VineyardWine
+    user_key: id
+  Wine:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: vineyard_id
+    - name: varietal
+      required: true
+    - name: year
+    - name: id
+    description: This page shows information about different wines in the diary.
+    info_list: This page shows information about different wines in the diary.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - wine_id
+      name: TastingList
+      resource: Tasting
+    - direction: tomany
+      fks:
+      - wine_id
+      name: VineyardWineList
+      resource: VineyardWine
+    - direction: tomany
+      fks:
+      - wine_id
+      name: WineReviewList
+      resource: WineReview
+    - direction: tomany
+      fks:
+      - wine_id
+      name: WineTastingList
+      resource: WineTasting
+    - direction: toone
+      fks:
+      - vineyard_id
+      name: vineyard
+      resource: Vineyard
+    type: Wine
+    user_key: name
+  WineReview:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: taster_id
+    - name: wine_id
+    - name: review
+    - name: rating
+    description: This page shows reviews made by tasters for each wine.
+    info_list: This page shows reviews made by tasters for each wine.
+    tab_groups:
+    - direction: toone
+      fks:
+      - taster_id
+      name: taster
+      resource: Taster
+    - direction: toone
+      fks:
+      - wine_id
+      name: wine
+      resource: Wine
+    type: WineReview
+    user_key: id
+  WineTasting:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: tasting_id
+    - name: wine_id
+    description: This table associates wines with their tastings.
+    info_list: This table associates wines with their tastings.
+    tab_groups:
+    - direction: toone
+      fks:
+      - tasting_id
+      name: tasting
+      resource: Tasting
+    - direction: toone
+      fks:
+      - wine_id
+      name: wine
+      resource: Wine
+    type: WineTasting
+    user_key: id
+  WineType:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: id
+    description: This table categorizes wines into different types such as red, white,
+      sparkling, etc.
+    info_list: This table categorizes wines into different types such as red, white,
+      sparkling, etc.
+    type: WineType
+    user_key: name
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

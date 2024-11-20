@@ -1,0 +1,49 @@
+<o-form-layout-manager attr="TastingEvent" mode="tab" title="TASTINGEVENT">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="TastingEventTable" 
+            service="TastingEvent" 
+            entity="TastingEvent" 
+            title="TASTINGEVENT"
+            keys="id"
+            columns="id;event_id;tasting_id" 
+            header-actions="R;D"
+            visible-columns="id;event_id;tasting_id"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="event_id" title="event_id">
+    <o-table-cell-renderer-service attr="event_id" 
+        service="Event" entity="EventType" columns="id;name"
+        parent-keys="id:event_id"
+        value-column="name" keys="event_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="tasting_id" title="tasting_id">
+    <o-table-cell-renderer-service attr="tasting_id" 
+        service="Tasting" entity="TastingType" columns="id;id"
+        parent-keys="id:tasting_id"
+        value-column="id" keys="tasting_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

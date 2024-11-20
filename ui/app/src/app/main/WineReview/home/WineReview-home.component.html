@@ -1,0 +1,53 @@
+<o-form-layout-manager attr="WineReview" mode="tab" title="WINEREVIEW">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="WineReviewTable" 
+            service="WineReview" 
+            entity="WineReview" 
+            title="WINEREVIEW"
+            keys="id"
+            columns="id;taster_id;wine_id;review;rating" 
+            header-actions="R;D"
+            visible-columns="id;taster_id;wine_id;review;rating"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="taster_id" title="taster_id">
+    <o-table-cell-renderer-service attr="taster_id" 
+        service="Taster" entity="TasterType" columns="id;name"
+        parent-keys="id:taster_id"
+        value-column="name" keys="taster_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="wine_id" title="wine_id">
+    <o-table-cell-renderer-service attr="wine_id" 
+        service="Wine" entity="WineType" columns="id;name"
+        parent-keys="id:wine_id"
+        value-column="name" keys="wine_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #review attr="review" title="review" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #rating attr="rating" title="rating" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

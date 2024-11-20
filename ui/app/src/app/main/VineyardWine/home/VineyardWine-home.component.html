@@ -1,0 +1,49 @@
+<o-form-layout-manager attr="VineyardWine" mode="tab" title="VINEYARDWINE">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="VineyardWineTable" 
+            service="VineyardWine" 
+            entity="VineyardWine" 
+            title="VINEYARDWINE"
+            keys="id"
+            columns="id;vineyard_id;wine_id" 
+            header-actions="R;D"
+            visible-columns="id;vineyard_id;wine_id"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="vineyard_id" title="vineyard_id">
+    <o-table-cell-renderer-service attr="vineyard_id" 
+        service="Vineyard" entity="VineyardType" columns="id;name"
+        parent-keys="id:vineyard_id"
+        value-column="name" keys="vineyard_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="wine_id" title="wine_id">
+    <o-table-cell-renderer-service attr="wine_id" 
+        service="Wine" entity="WineType" columns="id;name"
+        parent-keys="id:wine_id"
+        value-column="name" keys="wine_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>
